@@ -18,18 +18,18 @@ public class Transaction {
 
 	public Transaction(Operation operation, LocalDateTime date, Amount amount, Amount balance)
 			throws TransactionException {
-		if (this.operation == null) {
+		if (operation == null) {
 			throw new TransactionException("operation should be not null");
 		}
-		if (this.amount == null) {
+		if (amount == null) {
 			throw new TransactionException("amount should be not null");
 		}
-		if (this.balance == null) {
+		if (balance == null) {
 			throw new TransactionException("balance should be not null");
 		}
 
-		if (this.operation.equals(Operation.WITHDRAWL)) {
-			if ((this.balance.value() - this.amount.value()) <= 0) {
+		if (operation.equals(Operation.WITHDRAWL)) {
+			if ((balance.value() - amount.value()) <= 0) {
 				throw new TransactionException(
 						"Should not save a withdrawal transaction, the amount is superior to the current balance");
 			}
