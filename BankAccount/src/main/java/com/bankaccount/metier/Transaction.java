@@ -16,41 +16,47 @@ public class Transaction {
 	private Operation operation;
 	private LocalDateTime date;
 
-	public Transaction(Operation operationT, LocalDateTime dateT, Amount amountT, Amount balanceT)
+	public Transaction(Operation operation, LocalDateTime date, Amount amount, Amount balance)
 			throws TransactionException {
-		if (operationT == null) {
+		if (this.operation == null) {
 			throw new TransactionException("operation should be not null");
 		}
-		if (amountT == null) {
+		if (this.amount == null) {
 			throw new TransactionException("amount should be not null");
 		}
-		if (balanceT == null) {
+		if (this.balance == null) {
 			throw new TransactionException("balance should be not null");
 		}
 
-		if (operationT.equals(Operation.WITHDRAWL)) {
-			if ((balanceT.value() - amountT.value()) <= 0) {
+		if (this.operation.equals(Operation.WITHDRAWL)) {
+			if ((this.balance.value() - this.amount.value()) <= 0) {
 				throw new TransactionException(
 						"Should not save a withdrawal transaction, the amount is superior to the current balance");
 			}
 		}
-		amount = amountT;
-		balance = balanceT;
-		this.operation = operationT;
-		this.date = dateT;
+		this.amount = amount;
+		this.balance = balance;
+		this.operation = operation;
+		this.date = date;
 
 	}
 
+	/*
+	 * Method to format transaction
+	 */
 	public String print() {
-		return String.format("%15s %15s %15s %15s", operation.toString(), amount, balance,
-				date.format(DateTimeFormatter.ISO_DATE));
+		return String.format("%15s %15s %15s %15s", this.operation.toString(), this.amount, this.balance,
+				this.date.format(DateTimeFormatter.ISO_DATE));
 	}
 
+	/*
+	 * Method to calculate balance
+	 */
 	public Amount calculateBalance() throws AmountException {
-		if (Operation.WITHDRAWL.equals(operation)) {
-			return balance.subtract(amount);
+		if (Operation.WITHDRAWL.equals(this.operation)) {
+			return balance.subtract(this.amount);
 		} else {
-			return balance.add(amount);
+			return balance.add(this.amount);
 		}
 
 	}
