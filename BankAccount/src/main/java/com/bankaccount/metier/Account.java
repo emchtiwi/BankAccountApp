@@ -9,37 +9,41 @@ public class Account {
 
 	private Statement statement;
 
-	public Account(Amount a) throws AccountException {
-		if (a == null) {
+	public Account(Amount amount) throws AccountException {
+		if (amount == null) {
 			throw new AccountException("The initial balance cannot be null");
 		}
-		statement = new Statement();
+		this.statement = new Statement();
 	}
 
-	public void deposit(Amount a) throws AccountException {
-		if (a == null) {
+	public void deposit(Amount amount) throws AccountException {
+		if (amount == null) {
 			throw new AccountException("deposited amount should not be null");
 		}
 
-		statement.addDeposit(a, LocalDateTime.now());
+		this.statement.addDeposit(amount, LocalDateTime.now());
 	}
 
-	public void withdrawal(Amount a) throws AccountException {
-		if (a == null) {
+	public void withdrawal(Amount amount) throws AccountException {
+		if (amount == null) {
 			throw new AccountException("withdrawal amount should not be null");
 		}
 
-		statement.addWithdrawal(a, LocalDateTime.now());
+		this.statement.addWithdrawal(amount, LocalDateTime.now());
 
 	}
 
-	public void print(Iprinter p) {
-		statement.print(p);
+	public void print(Iprinter print) {
+		this.statement.print(print);
 
 	}
 
 	public Amount totalBalance() {
 		return statement.totalBalance();
+	}
+
+	Statement statement() {
+		return this.statement;
 	}
 
 }
