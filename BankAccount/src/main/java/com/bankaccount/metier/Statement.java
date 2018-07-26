@@ -24,23 +24,35 @@ public class Statement {
 		this.transactions = transactions;
 	}
 
+	/**
+	 * Method to add a deposit to the list of transactions
+	 */
 	public void addDeposit(Amount amount, LocalDateTime date) throws AmountException {
 		Transaction transaction = new Transaction(Operation.DEPOSIT, date, amount, totalBalance());
-		transactions.add(transaction);
+		this.transactions.add(transaction);
 	}
 
+	/*
+	 * Method to add a withdrawal to the list of transactions
+	 */
 	public void addWithdrawal(Amount amount, LocalDateTime date) throws AmountException {
 		Transaction transaction = new Transaction(Operation.WITHDRAWL, date, amount, totalBalance());
-		transactions.add(transaction);
+		this.transactions.add(transaction);
 	}
 
+	/*
+	 * Method to print transactions
+	 */
 	public void print(Iprinter printer) {
 		printer.print(Transaction.HEADER);
-		transactions.stream().forEach(transaction -> printer.print(transaction.print()));
+		this.transactions.stream().forEach(transaction -> printer.print(transaction.print()));
 	}
 
+	/*
+	 * Method to calculate balance
+	 */
 	public Amount totalBalance() throws AmountException {
-		return transactions.stream().reduce((a, b) -> b).map(Transaction::calculateBalance).orElse(new Amount(0f));
+		return this.transactions.stream().reduce((a, b) -> b).map(Transaction::calculateBalance).orElse(new Amount(0f));
 	}
 
 }
