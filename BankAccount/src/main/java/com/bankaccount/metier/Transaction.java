@@ -21,12 +21,17 @@ public class Transaction {
 		if (operation == null) {
 			throw new TransactionException("operation should be not null");
 		}
+		if (date == null) {
+			throw new TransactionException("date should be not null");
+		}
+
 		if (amount == null) {
 			throw new TransactionException("amount should be not null");
 		}
 		if (balance == null) {
 			throw new TransactionException("balance should be not null");
 		}
+		
 
 		if (operation.equals(Operation.WITHDRAWL)) {
 			if ((balance.value() - amount.value()) <= 0) {
