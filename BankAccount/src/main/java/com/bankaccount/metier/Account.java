@@ -16,6 +16,9 @@ public class Account {
 		this.statement = new Statement();
 	}
 
+	/*
+	 * Method to deposit an amount
+	 */
 	public void deposit(Amount amount) throws AccountException {
 		if (amount == null) {
 			throw new AccountException("deposited amount should not be null");
@@ -24,6 +27,9 @@ public class Account {
 		this.statement.addDeposit(amount, LocalDateTime.now());
 	}
 
+	/*
+	 * Method to withdrawal an amount
+	 */
 	public void withdrawal(Amount amount) throws AccountException {
 		if (amount == null) {
 			throw new AccountException("withdrawal amount should not be null");
@@ -33,11 +39,17 @@ public class Account {
 
 	}
 
+	/*
+	 * Method to print statement
+	 */
 	public void print(Iprinter print) {
 		this.statement.print(print);
 
 	}
 
+	/**
+	 * Method to get total balance
+	 */
 	public Amount totalBalance() {
 		return statement.totalBalance();
 	}
