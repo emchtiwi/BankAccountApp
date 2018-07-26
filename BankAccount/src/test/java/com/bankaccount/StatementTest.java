@@ -64,8 +64,27 @@ public class StatementTest {
 		 */
 		assertThat(transactions).isNotEmpty();
 		assertThat(transactions.get(2))
-				.isEqualToIgnoringNewLines("        WITHDRAWL           300.0             500.0      0000-01-01");
+				.isEqualToIgnoringNewLines("        WITHDRAWL           300.0             500.0      2000-01-01");
 
+	}
+
+	@Test()
+	public void verify_current_balance() throws AmountException {
+
+		/**
+		 * Given
+		 */
+		Statement statement = new Statement();
+
+		/**
+		 * When
+		 */
+		statement.addDeposit(new Amount(500f), LocalDateTime.of(2000, 1, 1, 0, 0));
+
+		/**
+		 * Then
+		 */
+		assertThat(statement.totalBalance()).isEqualTo(new Amount(500f));
 	}
 
 }
