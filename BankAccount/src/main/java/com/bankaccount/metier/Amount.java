@@ -8,40 +8,46 @@ public class Amount {
 
 	private Float value;
 
-	public Amount(final Float f) throws AmountException {
-		if (f == null) {
+	public Amount(final Float value) throws AmountException {
+		if (value == null) {
 			throw new AmountException("The initial amount cannot be null");
 		}
-		if (f < 0) {
+		if (value < 0) {
 			throw new AmountException("The initial amount cannot be negative");
 		}
-		value = f;
+		this.value = value;
 	}
 
-	public Amount add(final Amount a) throws AmountException {
-		if (a == null) {
+	/**
+	 * Method to add an amount
+	 */
+	public Amount add(final Amount amount) throws AmountException {
+		if (amount == null) {
 			throw new AmountException("The added amount cannot be null");
 		}
-		return new Amount(value + a.value);
+		return new Amount(this.value + amount.value);
 	}
 
-	public Amount subtract(final Amount a) throws AmountException {
-		if (a == null) {
+	/**
+	 * Method to subtract an amount
+	 */
+	public Amount subtract(final Amount amount) throws AmountException {
+		if (amount == null) {
 			throw new AmountException("The subtracted amount cannot be null");
 		}
-		if (value - a.value <= 0) {
+		if (this.value - amount.value <= 0) {
 			throw new AmountException("The current amount should be superior or equal to subtracted amount");
 		}
-		return new Amount(value - a.value);
+		return new Amount(this.value - amount.value);
 	}
 
 	public String toString() {
-		return value.toString();
+		return this.value.toString();
 	}
 
 	public boolean equals(final Object object) {
 		Amount amount = (Amount) object;
-		return Objects.equals(value, amount.value);
+		return Objects.equals(this.value, amount.value);
 	}
 
 }
