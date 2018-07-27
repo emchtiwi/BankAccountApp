@@ -89,6 +89,7 @@ public class AccountTest {
 		 */
 		Account account = new Account(new Amount(300f));
 		Amount amount = new Amount(100f);
+		
 		/**
 		 * When
 		 */

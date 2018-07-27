@@ -19,6 +19,26 @@ public class AmountTest {
 		new Amount(null);
 	}
 
+	@Test
+	public void verify_the_equality_of_two_amounts() throws AmountException {
+
+		/*
+		 * Given
+		 */
+		Amount firstAmount = new Amount(300f);
+		Amount secondAmount = new Amount(300f);
+
+		/*
+		 * When
+		 */
+		Boolean bEquality = firstAmount.equals(secondAmount);
+
+		/**
+		 * Then
+		 */
+		assertThat(bEquality).isTrue();
+	}
+
 	@Test(expected = AmountException.class)
 	public void current_amount_should_be_superior_or_equal_to_subtracted_amount() throws AmountException {
 

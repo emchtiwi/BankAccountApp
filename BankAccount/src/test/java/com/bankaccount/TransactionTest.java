@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.bankaccount.exception.AmountException;
 import com.bankaccount.exception.TransactionException;
 import com.bankaccount.metier.Amount;
-import com.bankaccount.metier.Transaction;
+import com.bankaccount.persistance.Transaction;
 import com.bankaccount.util.Operation;
 
 public class TransactionTest {
@@ -43,7 +43,7 @@ public class TransactionTest {
 	}
 
 	@Test
-	public void verify_to_print() throws AmountException, TransactionException {
+	public void verify_to_print_deposit() throws AmountException, TransactionException {
 		
 		/**
 		 * When
@@ -56,6 +56,23 @@ public class TransactionTest {
 		 */
 		assertThat(transaction.print())
 				.isEqualToIgnoringWhitespace("        DEPOSIT           100.0             200.0      2000-01-01");
+
+	}
+	
+	@Test
+	public void verify_to_print_withdrawal() throws AmountException, TransactionException {
+		
+		/**
+		 * When
+		 */
+		Transaction transaction = new Transaction(Operation.WITHDRAWL, LocalDateTime.of(2000, 1, 1, 0, 0),
+				new Amount(100f), new Amount(200f));
+		
+		/**
+		 * Then
+		 */
+		assertThat(transaction.print())
+				.isEqualToIgnoringWhitespace("        WITHDRAWL           100.0             200.0      2000-01-01");
 
 	}
 

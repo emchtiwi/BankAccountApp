@@ -8,7 +8,10 @@ public class Amount {
 
 	private Float value;
 
-	public Amount(final Float value) throws AmountException {
+	/**
+	 * Constructor
+	 */
+	public Amount(Float value) throws AmountException {
 		if (value == null) {
 			throw new AmountException("The initial amount cannot be null");
 		}
@@ -48,6 +51,10 @@ public class Amount {
 	public boolean equals(final Object object) {
 		Amount amount = (Amount) object;
 		return Objects.equals(this.value, amount.value);
+	}
+
+	public Float value() {
+		return this.value;
 	}
 
 }
