@@ -9,9 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.bankaccount.exception.AmountException;
-import com.bankaccount.exception.StatementException;
-import com.bankaccount.exception.TransactionException;
+import com.bankaccount.exception.BankAccountException;
 import com.bankaccount.metier.Amount;
 import com.bankaccount.persistance.Statement;
 
@@ -26,13 +24,13 @@ public class StatementTest {
 		transactions = new ArrayList<>();
 	}
 
-	@Test(expected = StatementException.class)
-	public void transactions_should_be_not_null__cons_withParam_() throws StatementException {
+	@Test(expected = BankAccountException.class)
+	public void transactions_should_be_not_null__cons_withParam_() throws BankAccountException {
 		new Statement(null);
 	}
 
 	@Test
-	public void should_save_a_deposit_transaction() throws AmountException, TransactionException {
+	public void should_save_a_deposit_transaction() throws BankAccountException {
 
 		/**
 		 * When
@@ -49,7 +47,7 @@ public class StatementTest {
 	}
 
 	@Test
-	public void should_save_a_withdrawal_transaction() throws AmountException, TransactionException {
+	public void should_save_a_withdrawal_transaction() throws BankAccountException {
 
 		/**
 		 * When
@@ -68,7 +66,7 @@ public class StatementTest {
 	}
 
 	@Test()
-	public void verify_current_balance() throws AmountException, TransactionException {
+	public void verify_current_balance() throws BankAccountException {
 
 		/**
 		 * When

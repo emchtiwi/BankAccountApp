@@ -6,51 +6,50 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import com.bankaccount.exception.AmountException;
-import com.bankaccount.exception.TransactionException;
+import com.bankaccount.exception.BankAccountException;
 import com.bankaccount.metier.Amount;
 import com.bankaccount.persistance.Transaction;
-import com.bankaccount.util.Operation;
+import com.bankaccount.utils.OperationUtils;
 
 public class TransactionTest {
 
-	@Test(expected = TransactionException.class)
-	public void amount_should_be_not_null() throws AmountException, TransactionException {
+	@Test(expected = BankAccountException.class)
+	public void amount_should_be_not_null() throws BankAccountException {
 
-		new Transaction(Operation.DEPOSIT, LocalDateTime.now(), null, new Amount(0f));
+		new Transaction(OperationUtils.DEPOSIT, LocalDateTime.now(), null, new Amount(0f));
 
 	}
 
-	@Test(expected = TransactionException.class)
-	public void operation_type_should_be_not_null() throws AmountException, TransactionException {
+	@Test(expected = BankAccountException.class)
+	public void operation_type_should_be_not_null() throws BankAccountException {
 
 		new Transaction(null, LocalDateTime.now(), new Amount(0f), new Amount(0f));
 
 	}
 
-	@Test(expected = TransactionException.class)
-	public void balance_should_be_not_null() throws AmountException, TransactionException {
+	@Test(expected = BankAccountException.class)
+	public void balance_should_be_not_null() throws BankAccountException {
 
-		new Transaction(Operation.DEPOSIT, LocalDateTime.now(), new Amount(0f), null);
+		new Transaction(OperationUtils.DEPOSIT, LocalDateTime.now(), new Amount(0f), null);
 
 	}
 
-	@Test(expected = TransactionException.class)
-	public void date_should_be_not_null() throws AmountException, TransactionException {
+	@Test(expected = BankAccountException.class)
+	public void date_should_be_not_null() throws BankAccountException {
 
-		new Transaction(Operation.DEPOSIT, null, new Amount(0f), new Amount(0f));
+		new Transaction(OperationUtils.DEPOSIT, null, new Amount(0f), new Amount(0f));
 
 	}
 
 	@Test
-	public void verify_to_print_deposit() throws AmountException, TransactionException {
-		
+	public void verify_to_print_deposit() throws BankAccountException {
+
 		/**
 		 * When
 		 */
-		Transaction transaction = new Transaction(Operation.DEPOSIT, LocalDateTime.of(2000, 1, 1, 0, 0),
+		Transaction transaction = new Transaction(OperationUtils.DEPOSIT, LocalDateTime.of(2000, 1, 1, 0, 0),
 				new Amount(100f), new Amount(200f));
-		
+
 		/**
 		 * Then
 		 */
@@ -58,16 +57,16 @@ public class TransactionTest {
 				.isEqualToIgnoringWhitespace("        DEPOSIT           100.0             200.0      2000-01-01");
 
 	}
-	
+
 	@Test
-	public void verify_to_print_withdrawal() throws AmountException, TransactionException {
-		
+	public void verify_to_print_withdrawal() throws BankAccountException {
+
 		/**
 		 * When
 		 */
-		Transaction transaction = new Transaction(Operation.WITHDRAWL, LocalDateTime.of(2000, 1, 1, 0, 0),
+		Transaction transaction = new Transaction(OperationUtils.WITHDRAWL, LocalDateTime.of(2000, 1, 1, 0, 0),
 				new Amount(100f), new Amount(200f));
-		
+
 		/**
 		 * Then
 		 */
@@ -77,12 +76,12 @@ public class TransactionTest {
 	}
 
 	@Test
-	public void verify_calculate_balance() throws AmountException, TransactionException {
+	public void verify_calculate_balance() throws BankAccountException {
 
 		/**
 		 * When
 		 */
-		Transaction transaction = new Transaction(Operation.DEPOSIT, LocalDateTime.of(2000, 1, 1, 0, 0),
+		Transaction transaction = new Transaction(OperationUtils.DEPOSIT, LocalDateTime.of(2000, 1, 1, 0, 0),
 				new Amount(100f), new Amount(100f));
 
 		/**

@@ -1,13 +1,13 @@
 package com.bankaccount.exception;
 
-public class AmountException extends Exception {
+public class BankAccountException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AmountException(final String message) {
+	public BankAccountException(final String message) {
 		super(message);
 	}
 }

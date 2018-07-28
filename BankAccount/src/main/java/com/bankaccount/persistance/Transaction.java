@@ -3,10 +3,10 @@ package com.bankaccount.persistance;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.bankaccount.exception.AmountException;
-import com.bankaccount.exception.TransactionException;
+import com.bankaccount.exception.BankAccountException;
 import com.bankaccount.metier.Amount;
-import com.bankaccount.util.Operation;
+import com.bankaccount.utils.CommonUtils;
+import com.bankaccount.utils.OperationUtils;
 
 public class Transaction {
 
@@ -15,33 +15,27 @@ public class Transaction {
 
 	private Amount amount;
 	private Amount balance;
-	private Operation operation;
+	private OperationUtils operation;
 	private LocalDateTime date;
 
 	/**
 	 * Constructor
 	 */
-	public Transaction(Operation operation, LocalDateTime date, Amount amount, Amount balance)
-			throws TransactionException {
-		if (operation == null) {
-			throw new TransactionException("operation should be not null");
-		}
-		if (date == null) {
-			throw new TransactionException("date should be not null");
-		}
-		if (amount == null) {
-			throw new TransactionException("amount should be not null");
-		}
-		if (balance == null) {
-			throw new TransactionException("balance should be not null");
-		}
+	public Transaction(OperationUtils operation, LocalDateTime date, Amount amount, Amount balance)
+			throws BankAccountException {
 
-		if (operation.equals(Operation.WITHDRAWL)) {
+		CommonUtils.checkObjectIsNullThrowException(operation, "operation should be not null");
+		CommonUtils.checkObjectIsNullThrowException(date, "date should be not null");
+		CommonUtils.checkObjectIsNullThrowException(amount, "amount should be not null");
+		CommonUtils.checkObjectIsNullThrowException(balance, "balance should be not null");
+
+		if (operation.equals(OperationUtils.WITHDRAWL)) {
 			if ((balance.value() - amount.value()) <= 0) {
-				throw new TransactionException(
+				throw new BankAccountException(
 						"Should not save a withdrawal transaction, the amount is superior to the current balance");
 			}
 		}
+
 		this.amount = amount;
 		this.balance = balance;
 		this.operation = operation;
@@ -53,15 +47,18 @@ public class Transaction {
 	 * Method to format transaction
 	 */
 	public String print() {
+
 		return String.format("%15s %15s %15s %15s", this.operation.toString(), this.amount, this.balance,
 				this.date.format(DateTimeFormatter.ISO_DATE));
+
 	}
 
 	/*
 	 * Method to calculate balance
 	 */
-	public Amount calculateBalance() throws AmountException {
-		if (Operation.WITHDRAWL.equals(this.operation)) {
+	public Amount calculateBalance() throws BankAccountException {
+
+		if (OperationUtils.WITHDRAWL.equals(this.operation)) {
 			return this.balance.subtract(this.amount);
 		} else {
 			return this.balance.add(this.amount);

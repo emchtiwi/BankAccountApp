@@ -2,7 +2,8 @@ package com.bankaccount.metier;
 
 import java.util.Objects;
 
-import com.bankaccount.exception.AmountException;
+import com.bankaccount.exception.BankAccountException;
+import com.bankaccount.utils.CommonUtils;
 
 public class Amount {
 
@@ -11,35 +12,34 @@ public class Amount {
 	/**
 	 * Constructor
 	 */
-	public Amount(Float value) throws AmountException {
-		if (value == null) {
-			throw new AmountException("The initial amount cannot be null");
-		}
+	public Amount(Float value) throws BankAccountException {
+
+		CommonUtils.checkObjectIsNullThrowException(value, "The initial amount cannot be null");
 		if (value < 0) {
-			throw new AmountException("The initial amount cannot be negative");
+			throw new BankAccountException("The initial amount cannot be negative");
 		}
 		this.value = value;
+
 	}
 
 	/**
 	 * Method to add an amount
 	 */
-	public Amount add(final Amount amount) throws AmountException {
-		if (amount == null) {
-			throw new AmountException("The added amount cannot be null");
-		}
+	public Amount add(final Amount amount) throws BankAccountException {
+
+		CommonUtils.checkObjectIsNullThrowException(amount, "The added amount cannot be null");
 		return new Amount(this.value + amount.value);
+
 	}
 
 	/**
 	 * Method to subtract an amount
 	 */
-	public Amount subtract(final Amount amount) throws AmountException {
-		if (amount == null) {
-			throw new AmountException("The subtracted amount cannot be null");
-		}
+	public Amount subtract(final Amount amount) throws BankAccountException {
+
+		CommonUtils.checkObjectIsNullThrowException(amount, "The subtracted amount cannot be null");
 		if (this.value - amount.value <= 0) {
-			throw new AmountException("The current amount should be superior or equal to subtracted amount");
+			throw new BankAccountException("The current amount should be superior or equal to subtracted amount");
 		}
 		return new Amount(this.value - amount.value);
 	}

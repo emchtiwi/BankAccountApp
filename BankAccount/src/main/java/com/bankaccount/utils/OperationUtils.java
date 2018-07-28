@@ -1,13 +1,13 @@
-package com.bankaccount.util;
+package com.bankaccount.utils;
 
-public enum Operation {
+public enum OperationUtils {
 
 	DEPOSIT("DEPOSIT"),
 	WITHDRAWL("WITHDRAWL");
 
 	private String operation;
 
-	Operation(String operation) {
+	OperationUtils(String operation) {
 		this.operation = operation;
 	}
 

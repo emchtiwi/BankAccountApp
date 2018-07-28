@@ -9,16 +9,14 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.bankaccount.exception.AccountException;
-import com.bankaccount.exception.AmountException;
-import com.bankaccount.exception.TransactionException;
+import com.bankaccount.exception.BankAccountException;
 import com.bankaccount.metier.Account;
 import com.bankaccount.metier.Amount;
 
 public class AcceptanceTest {
 
 	@Test
-	public void should_generate_a_transaction_history() throws AccountException, AmountException, TransactionException {
+	public void should_generate_a_transaction_history() throws BankAccountException{
 
 		/*
 		 * Given

@@ -2,11 +2,10 @@ package com.bankaccount.metier;
 
 import java.time.LocalDateTime;
 
-import com.bankaccount.exception.AccountException;
-import com.bankaccount.exception.AmountException;
-import com.bankaccount.exception.TransactionException;
+import com.bankaccount.exception.BankAccountException;
 import com.bankaccount.persistance.Statement;
 import com.bankaccount.service.Iprinter;
+import com.bankaccount.utils.CommonUtils;
 
 public class Account {
 
@@ -15,12 +14,12 @@ public class Account {
 	/**
 	 * Constructor
 	 */
-	public Account(Amount amount) throws AccountException, AmountException, TransactionException {
-		if (amount == null) {
-			throw new AccountException("The initial balance cannot be null");
-		}
+	public Account(Amount amount) throws BankAccountException {
+
+		CommonUtils.checkObjectIsNullThrowException(amount, "The initial balance cannot be null");
 		this.statement = new Statement();
 		this.statement.addDeposit(amount, LocalDateTime.now());
+
 	}
 
 	/*
@@ -33,29 +32,26 @@ public class Account {
 	/**
 	 * Method to get total balance
 	 */
-	public Amount totalBalance() throws AmountException, TransactionException {
+	public Amount totalBalance() throws BankAccountException {
 		return this.statement.totalBalance();
 	}
 
 	/*
 	 * Method to deposit an amount
 	 */
-	public void deposit(final Amount amount) throws AccountException, AmountException, TransactionException {
-		if (amount == null) {
-			throw new AccountException("deposited amount should not be null");
-		}
+	public void deposit(final Amount amount) throws BankAccountException {
 
+		CommonUtils.checkObjectIsNullThrowException(amount, "deposited amount should not be null");
 		this.statement.addDeposit(amount, LocalDateTime.now());
+
 	}
 
 	/*
 	 * Method to withdrawal an amount
 	 */
-	public void withdrawal(final Amount amount) throws AccountException, AmountException, TransactionException {
-		if (amount == null) {
-			throw new AccountException("withdrawal amount should not be null");
-		}
+	public void withdrawal(final Amount amount) throws BankAccountException {
 
+		CommonUtils.checkObjectIsNullThrowException(amount, "withdrawal amount should not be null");
 		this.statement.addWithdrawal(amount, LocalDateTime.now());
 	}
 
