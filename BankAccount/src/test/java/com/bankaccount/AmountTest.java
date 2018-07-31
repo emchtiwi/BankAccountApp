@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
+import com.bankaccount.metier.AmountMetier;
 import com.bankaccount.pojo.Amount;
-import com.bankaccount.service.metier.AmountMetier;
 
 public class AmountTest {
 

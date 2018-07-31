@@ -10,12 +10,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.bankaccount.metier.AccountMetier;
+import com.bankaccount.metier.StatementMetier;
 import com.bankaccount.persistance.TransactionPersistance;
 import com.bankaccount.pojo.Account;
 import com.bankaccount.pojo.Amount;
 import com.bankaccount.service.PrinterService;
-import com.bankaccount.service.metier.AccountMetier;
-import com.bankaccount.service.metier.StatementMetier;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountTest {

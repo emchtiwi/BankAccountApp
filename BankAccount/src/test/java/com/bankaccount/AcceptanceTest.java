@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.bankaccount.metier.AccountMetier;
+import com.bankaccount.metier.StatementMetier;
 import com.bankaccount.pojo.Amount;
-import com.bankaccount.service.metier.AccountMetier;
-import com.bankaccount.service.metier.StatementMetier;
 
 public class AcceptanceTest {
 

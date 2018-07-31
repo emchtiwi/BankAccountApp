@@ -9,10 +9,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bankaccount.metier.StatementMetier;
 import com.bankaccount.persistance.TransactionPersistance;
 import com.bankaccount.pojo.Amount;
 import com.bankaccount.pojo.StatementLine;
-import com.bankaccount.service.metier.StatementMetier;
 import com.bankaccount.utils.Operation;
 
 public class StatementTest {

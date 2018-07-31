@@ -1,4 +1,4 @@
-package com.bankaccount.service.metier;
+package com.bankaccount.metier;
 
 import org.apache.commons.lang3.Validate;
 

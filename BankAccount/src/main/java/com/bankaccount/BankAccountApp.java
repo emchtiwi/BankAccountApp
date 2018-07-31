@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.bankaccount.metier.AccountMetier;
+import com.bankaccount.metier.StatementMetier;
 import com.bankaccount.pojo.Amount;
-import com.bankaccount.service.metier.AccountMetier;
-import com.bankaccount.service.metier.StatementMetier;
 
 public class BankAccountApp {
 
