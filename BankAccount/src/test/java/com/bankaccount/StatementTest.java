@@ -9,74 +9,105 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.bankaccount.exception.BankAccountException;
-import com.bankaccount.metier.Amount;
-import com.bankaccount.persistance.Statement;
+import com.bankaccount.persistance.TransactionPersistance;
+import com.bankaccount.pojo.Amount;
+import com.bankaccount.pojo.StatementLine;
+import com.bankaccount.service.metier.StatementMetier;
+import com.bankaccount.utils.Operation;
 
 public class StatementTest {
 
-	private Statement statement;
+	private StatementMetier statement;
+
 	private List<String> transactions;
 
 	@Before
 	public void initialise() {
-		statement = new Statement();
+		statement = new StatementMetier();
 		transactions = new ArrayList<>();
 	}
 
-	@Test(expected = BankAccountException.class)
-	public void transactions_should_be_not_null__cons_withParam_() throws BankAccountException {
-		new Statement(null);
+	@Test(expected = NullPointerException.class)
+	public void StatementLine_should_be_not_null() {
+
+		new StatementLine(null, null);
+
 	}
 
-	@Test
-	public void should_save_a_deposit_transaction() throws BankAccountException {
+	@Test(expected = NullPointerException.class)
+	public void transaction_should_be_not_null() {
+
+		/**
+		 * Given
+		 */
+		Amount balance = new Amount(100f);
 
 		/**
 		 * When
 		 */
-		statement.addDeposit(new Amount(300f), LocalDateTime.of(2000, 1, 1, 0, 0));
+		statement.saveTransaction(null, balance);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void balance_should_be_not_null() {
+
+		/**
+		 * Given
+		 */
+		TransactionPersistance transaction = new TransactionPersistance(Operation.DEPOSIT,
+				LocalDateTime.of(2000, 1, 1, 0, 0), new Amount(300f));
+
+		/**
+		 * When
+		 */
+		statement.saveTransaction(transaction, null);
+	}
+
+	@Test
+	public void should_save_a_deposit_transaction() {
+
+		/**
+		 * Given
+		 */
+		TransactionPersistance transaction = new TransactionPersistance(Operation.DEPOSIT,
+				LocalDateTime.of(2000, 1, 1, 0, 0), new Amount(300f));
+
+		/**
+		 * When
+		 */
+		statement.saveTransaction(transaction, new Amount(300f));
 		statement.print(transactions::add);
 
 		/**
 		 * Then
 		 */
-		assertThat(transactions).isNotEmpty();
+		assertThat(transactions).isNotEmpty().hasSize(2);
 		assertThat(transactions.get(1))
-				.isEqualToIgnoringNewLines("        DEPOSIT           300.0             0.0      2000-01-01");
+				.isEqualToIgnoringNewLines("        DEPOSIT           300.0           300.0      2000-01-01");
 	}
 
 	@Test
-	public void should_save_a_withdrawal_transaction() throws BankAccountException {
+	public void should_save_a_withdrawal_transaction() {
+
+		/**
+		 * Given
+		 */
+		TransactionPersistance transaction = new TransactionPersistance(Operation.WITHDRAWL,
+				LocalDateTime.of(2000, 1, 1, 0, 0), new Amount(-100f));
 
 		/**
 		 * When
 		 */
-		statement.addDeposit(new Amount(500f), LocalDateTime.of(2000, 1, 1, 0, 0));
-		statement.addWithdrawal(new Amount(300f), LocalDateTime.of(2000, 1, 1, 0, 0));
+		statement.saveTransaction(transaction, new Amount(100f));
 		statement.print(transactions::add);
 
 		/**
 		 * Then
 		 */
-		assertThat(transactions).isNotEmpty();
-		assertThat(transactions.get(2))
-				.isEqualToIgnoringNewLines("      WITHDRAWL           300.0           500.0      2000-01-01");
+		assertThat(transactions).isNotEmpty().hasSize(2);
+		assertThat(transactions.get(1))
+				.isEqualToIgnoringNewLines("      WITHDRAWL          -100.0           100.0      2000-01-01");
 
-	}
-
-	@Test()
-	public void verify_current_balance() throws BankAccountException {
-
-		/**
-		 * When
-		 */
-		statement.addDeposit(new Amount(500f), LocalDateTime.of(2000, 1, 1, 0, 0));
-
-		/**
-		 * Then
-		 */
-		assertThat(statement.totalBalance()).isEqualTo(new Amount(500f));
 	}
 
 }
