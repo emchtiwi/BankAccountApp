@@ -9,29 +9,28 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.bankaccount.pojo.Amount;
-import com.bankaccount.service.metier.AccountMetier;
-import com.bankaccount.service.metier.StatementMetier;
+import com.bankaccount.exception.BankAccountException;
+import com.bankaccount.metier.Account;
+import com.bankaccount.metier.Amount;
 
 public class AcceptanceTest {
 
 	@Test
-	public void should_generate_a_transaction_history() {
+	public void should_generate_a_transaction_history() throws BankAccountException{
 
 		/*
 		 * Given
 		 */
 		List<String> statements = new ArrayList<>();
 		String toDay = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
-		AccountMetier accountMetier = new AccountMetier(new StatementMetier());
+		Account account = new Account(new Amount(200.4f));
 
 		/*
 		 * When
 		 */
-		accountMetier.deposit(new Amount(200.4f));
-		accountMetier.deposit(new Amount(6384.6f));
-		accountMetier.withdrawal(new Amount(500f));
-		accountMetier.print(statements::add);
+		account.deposit(new Amount(6384.6f));
+		account.withdrawal(new Amount(500f));
+		account.print(statements::add);
 
 		/*
 		 * Then
@@ -39,8 +38,8 @@ public class AcceptanceTest {
 		assertThat(statements).isNotEmpty();
 		assertThat(statements).hasSize(4);
 		assertThat(statements.get(0)).isEqualTo(" OPERATION TYPE          AMOUNT         BALANCE  OPERATION DATE");
-		assertThat(statements.get(1)).isEqualTo("        DEPOSIT           200.4           200.4      " + toDay + "");
-		assertThat(statements.get(2)).isEqualTo("        DEPOSIT          6384.6          6585.0      " + toDay + "");
-		assertThat(statements.get(3)).isEqualTo("      WITHDRAWL          -500.0          6085.0      " + toDay + "");
+		assertThat(statements.get(1)).isEqualTo("        DEPOSIT           200.4             0.0      " + toDay + "");
+		assertThat(statements.get(2)).isEqualTo("        DEPOSIT          6384.6           200.4      " + toDay + "");
+		assertThat(statements.get(3)).isEqualTo("      WITHDRAWL           500.0          6585.0      " + toDay + "");
 	}
 }
