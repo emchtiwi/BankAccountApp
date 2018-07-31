@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.bankaccount.exception.BankAccountException;
-import com.bankaccount.metier.Account;
-import com.bankaccount.metier.Amount;
+import com.bankaccount.pojo.Amount;
+import com.bankaccount.service.metier.AccountMetier;
+import com.bankaccount.service.metier.StatementMetier;
 
 public class BankAccountApp {
 
@@ -15,21 +15,15 @@ public class BankAccountApp {
 
 	public static void main(String[] args) {
 		List<String> statements = new ArrayList<>();
-		Account account;
+		AccountMetier accountMetier = new AccountMetier(new StatementMetier());
 
-		try {
-
-			/**
-			 * US1 & US2 : save and retrieve money
-			 */
-			account = new Account(new Amount(200.4f));
-			account.deposit(new Amount(6384.6f));
-			account.withdrawal(new Amount(500f));
-			account.print(statements::add);
-			
-		} catch (BankAccountException e) {
-			logger.error(e.getMessage());
-		}
+		/**
+		 * US1 & US2 : save and retrieve money
+		 */
+		accountMetier.deposit(new Amount(200.4f));
+		accountMetier.deposit(new Amount(6384.6f));
+		accountMetier.withdrawal(new Amount(500f));
+		accountMetier.print(statements::add);
 
 		/**
 		 * US3 : see the history
@@ -38,5 +32,4 @@ public class BankAccountApp {
 			logger.info(print);
 		}
 	}
-
 }

@@ -1,6 +1,6 @@
 package com.bankaccount.service;
 
 @FunctionalInterface
-public interface Iprinter {
+public interface PrinterService {
 	void print(String content);
 }
