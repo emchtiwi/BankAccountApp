@@ -6,88 +6,95 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import com.bankaccount.exception.BankAccountException;
-import com.bankaccount.metier.Amount;
-import com.bankaccount.persistance.Transaction;
-import com.bankaccount.utils.OperationUtils;
+import com.bankaccount.persistance.TransactionPersistance;
+import com.bankaccount.pojo.Amount;
+import com.bankaccount.utils.Operation;
 
 public class TransactionTest {
 
-	@Test(expected = BankAccountException.class)
-	public void amount_should_be_not_null() throws BankAccountException {
+	@Test(expected = NullPointerException.class)
+	public void amount_should_be_not_null() {
 
-		new Transaction(OperationUtils.DEPOSIT, LocalDateTime.now(), null, new Amount(0f));
-
-	}
-
-	@Test(expected = BankAccountException.class)
-	public void operation_type_should_be_not_null() throws BankAccountException {
-
-		new Transaction(null, LocalDateTime.now(), new Amount(0f), new Amount(0f));
+		new TransactionPersistance(Operation.DEPOSIT, LocalDateTime.now(), null);
 
 	}
 
-	@Test(expected = BankAccountException.class)
-	public void balance_should_be_not_null() throws BankAccountException {
+	@Test(expected = NullPointerException.class)
+	public void operation_type_should_be_not_null() {
 
-		new Transaction(OperationUtils.DEPOSIT, LocalDateTime.now(), new Amount(0f), null);
+		new TransactionPersistance(null, LocalDateTime.now(), new Amount(100f));
 
 	}
 
-	@Test(expected = BankAccountException.class)
-	public void date_should_be_not_null() throws BankAccountException {
+	@Test(expected = NullPointerException.class)
+	public void date_should_be_not_null() {
 
-		new Transaction(OperationUtils.DEPOSIT, null, new Amount(0f), new Amount(0f));
+		new TransactionPersistance(Operation.DEPOSIT, null, new Amount(100f));
 
 	}
 
 	@Test
-	public void verify_to_print_deposit() throws BankAccountException {
+	public void verify_to_print_deposit() {
+
+		/**
+		 * Given
+		 */
+		TransactionPersistance transaction = new TransactionPersistance(Operation.DEPOSIT,
+				LocalDateTime.of(2000, 1, 1, 0, 0), new Amount(100f));
 
 		/**
 		 * When
 		 */
-		Transaction transaction = new Transaction(OperationUtils.DEPOSIT, LocalDateTime.of(2000, 1, 1, 0, 0),
-				new Amount(100f), new Amount(200f));
+		String print = transaction.print(new Amount(100f));
 
 		/**
 		 * Then
 		 */
-		assertThat(transaction.print())
-				.isEqualToIgnoringWhitespace("        DEPOSIT           100.0             200.0      2000-01-01");
+		assertThat(print)
+				.isEqualToIgnoringNewLines("        DEPOSIT           100.0           100.0      2000-01-01");
 
 	}
 
 	@Test
-	public void verify_to_print_withdrawal() throws BankAccountException {
+	public void verify_to_print_withdrawal() {
+
+		/**
+		 * Given
+		 */
+		TransactionPersistance transaction = new TransactionPersistance(Operation.WITHDRAWL,
+				LocalDateTime.of(2000, 1, 1, 0, 0), new Amount(200f));
 
 		/**
 		 * When
 		 */
-		Transaction transaction = new Transaction(OperationUtils.WITHDRAWL, LocalDateTime.of(2000, 1, 1, 0, 0),
-				new Amount(100f), new Amount(200f));
+		String print = transaction.print(new Amount(0f));
 
 		/**
 		 * Then
 		 */
-		assertThat(transaction.print())
-				.isEqualToIgnoringWhitespace("        WITHDRAWL           100.0             200.0      2000-01-01");
+		assertThat(print)
+				.isEqualToIgnoringWhitespace("        WITHDRAWL           200.0           0.0      2000-01-01");
 
 	}
 
 	@Test
-	public void verify_calculate_balance() throws BankAccountException {
+	public void verify_calculate_balance() {
 
 		/**
-		 * When
+		 * Given
 		 */
-		Transaction transaction = new Transaction(OperationUtils.DEPOSIT, LocalDateTime.of(2000, 1, 1, 0, 0),
-				new Amount(100f), new Amount(100f));
+		TransactionPersistance transaction = new TransactionPersistance(Operation.WITHDRAWL,
+				LocalDateTime.of(2000, 1, 1, 0, 0), new Amount(-100f));
+
+		/**
+		 * when
+		 */
+		Amount balance = transaction.totalBalance(new Amount(100f));
 
 		/**
 		 * Then
 		 */
-		assertThat(transaction.calculateBalance()).isEqualTo(new Amount(200f));
+		assertThat(balance).isEqualTo(new Amount(0f));
 
 	}
 
